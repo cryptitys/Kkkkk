@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Premium Generator</title>
+  <link rel="icon" href="51rttY7a+9L._h1_.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --bg-color: #0F0F14;
+      --card-bg: rgba(23, 23, 24, 0.8);
+      --border-color: rgba(30, 215, 96, 0.4);
+      --text-primary: #EDEDF2;
+      --text-secondary: #A7A7B4;
+      --accent-color: #1DB954;
+      --accent-dark: #1AA34A;
+      --accent-light: #1ED760;
+      --title: #c9c9c9;
+      --tag-online-bg: rgba(30, 215, 96, 0.2);
+      --tag-online-text: #1DB954;
+      --focus-outline: var(--accent-color);
+      --transition-duration: 0.3s;
+      --particle-color: var(--accent-color);
+      --glass-blur: 12px;
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      --hero-shadow: 0 20px 60px 0 rgba(29, 185, 84, 0.15);
+      --border-radius-sm: 8px;
+      --border-radius-md: 16px;
+      --border-radius-lg: 24px;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: #111111;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.6;
+      background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 25px 25px;
+      overflow-x: hidden;
+    }
+
+    a, button {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: all var(--transition-duration) ease;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus-outline);
+      outline-offset: 2px;
+      border-radius: var(--border-radius-sm);
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
+
+    .header-left, .header-controls-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      background: linear-gradient(45deg, #1DB954, #1ED760);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    header button, .sidebar-header button {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      padding: 0.75rem;
+      border-radius: var(--border-radius-sm);
+      transition: all var(--transition-duration) ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    header button:hover, .sidebar-header button:hover {
+      background-color: var(--border-color);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    header button:hover .icon {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    #spotify-btn {
+      color: var(--accent-color);
+    }
+
+    #spotify-btn:hover {
+      background-color: rgba(29, 185, 84, 0.1);
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    }
+
+    main {
+      width: 100%;
+      max-width: 1280px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-grow: 1;
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 6rem 2rem 4rem 2rem;
+      position: relative;
+      background: radial-gradient(ellipse at center, rgba(29, 185, 84, 0.1) 0%, transparent 70%);
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      animation: heroFadeIn 1s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(29, 185, 84, 0.1);
+      border: 1px solid rgba(29, 185, 84, 0.3);
+      color: var(--accent-light);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin: 0 auto 2rem auto;
+      width: fit-content;
+    }
+
+    .badge-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      text-align: center;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 50%, #1ED760 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .main-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      width: 100%;
+      margin: 8rem 2rem 2rem 2rem;
+      max-width: 600px;
+    }
+
+    .input-box {
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1s;
+    }
+
+    .input-box input {
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--border-color);
+      background-color: rgba(0, 0, 0, 0.2);
+      color: var(--text-primary);
+      outline: none;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .input-box input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+    }
+
+    .output-box {
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1.5s;
+    }
+
+    .output-box textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--border-color);
+      background-color: rgba(0, 0, 0, 0.2);
+      color: var(--text-primary);
+      resize: none;
+      outline: none;
+    }
+
+    .output-box textarea:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+    }
+
+    .btn {
+      margin-top: 12px;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: 1px solid var(--accent-color);
+      border-radius: var(--border-radius-md);
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-dark) 100%);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 1s forwards 2s;
+      font-weight: 600;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(29, 185, 84, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent-color);
+    }
+
+    footer {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #aaa;
+      text-align: center;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    footer strong {
+      color: var(--accent-light);
+    }
+
+    .visitor-counter {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--card-shadow);
+      z-index: 99;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-card {
+        margin: 1rem;
+        margin-top: 5rem;
+        padding: 1.5rem;
+      }
+      
+      header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .header-title {
+        font-size: 1.2rem;
+      }
+      
+      .header-brand {
+        gap: 0.5rem;
+      }
+
+      .brand-logo-img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .hero-section {
+        padding: 5rem 1rem 3rem 1rem;
+        min-height: auto;
+      }
+
+      .hero-title {
+        font-size: 2.2rem;
+        line-height: 1.2;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .visitor-counter {
+        bottom: 10px;
+        right: 10px;
+        font-size: 10px;
+        padding: 6px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <div class="header-brand">
+        <img src="51rttY7a+9L._h1_.png" alt="Logo" class="brand-logo-img">
+        <h1 class="header-title">Spotify Generator</h1>
+      </div>
+    </div>
+    <div class="header-right">
+      <button id="spotify-btn" aria-label="Spotify">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-2-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-section">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+          <span>Spotify Premium Generator</span>
+        </div>
+        <h1 class="hero-title">Gerador de Links <span class="gradient-text">Spotify Premium</span></h1>
+        <p class="hero-description">Gere links exclusivos para assinatura trimestral do Spotify Premium</p>
+      </div>
+    </div>
+
+    <div class="main-card">
+      <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-primary);">Quantos links de Spotify Premium Trimestral você gostaria de gerar?</h2>
+      <div class="input-box">
+        <input type="number" id="quantity" placeholder="Digite a quantidade">
+      </div>
+      <div class="output-box">
+        <textarea id="codes" placeholder="Spotify Premium Trimestral..." readonly></textarea>
+      </div>
+      <div class="btn-container">
+        <button class="btn" onclick="generateCodes()">Gerar Links</button>
+        <button class="btn secondary" onclick="copyToClipboard()">Copiar</button>
+        <button class="btn secondary" onclick="downloadTxtFile()">Baixar Links</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="visitor-counter" id="visitorCounter">
+    👁️ <span id="counter">0</span>
+  </div>
+
+  <footer>
+    Site desenvolvido por <strong>snttoswx</strong>, link<strong> spotify</strong>
+  </footer>
+
+  <script>
+    // URL do Spotify
+    const SPOTIFY_URL = 'https://open.spotify.com/';
+
+    // Função para redirecionar para o Spotify
+    document.getElementById('spotify-btn').addEventListener('click', function() {
+      window.open(SPOTIFY_URL, '_blank');
+    });
+
+    // Função para contar visitantes usando uma API externa
+    async function updateVisitorCounter() {
+      try {
+        // Tenta usar uma API de contador online
+        const response = await fetch('https://api.countapi.xyz/hit/spotify-premium/visits');
+        const data = await response.json();
+        document.getElementById('counter').textContent = data.value;
+      } catch (error) {
+        // Fallback para localStorage se a API falhar
+        console.error('Erro ao acessar a API de contador:', error);
+        let count = localStorage.getItem('siteVisits');
+        
+        if (count) {
+          count = parseInt(count) + 1;
+        } else {
+          count = 1;
+        }
+        
+        localStorage.setItem('siteVisits', count);
+        document.getElementById('counter').textContent = count;
+      }
+    }
+
+    // Chamar a função quando a página carregar
+    window.addEventListener('load', updateVisitorCounter);
+
+    // Função para gerar códigos
+    async function generateCodes() {
+        const quantity = document.getElementById('quantity').value;
+        const output = document.getElementById('codes');
+        const caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const tamanho = 15;
+        let codigos = [];
+
+        for (let i = 0; i < quantity; i++) {
+            let codigo = '';
+            for (let j = 0; j < tamanho; j++) {
+                const indice = Math.floor(Math.random() * caracteres.length);
+                codigo += caracteres.charAt(indice);
+            }
+            codigos.push(`https://www.spotify.com/br-pt/premium/?utm_source=br-pt_brand_contextual_text&utm_medium=${codigo}`);
+        }
+
+        output.value = codigos.join('\n');
+    }
+
+    // Função para copiar os códigos para a área de transferência
+    function copyToClipboard() {
+        const copyText = document.getElementById('codes');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+        navigator.clipboard.writeText(copyText.value).then(() => {
+            alert("Códigos copiados para a área de transferência!");
+        }).catch(err => {
+            alert("Erro ao copiar os códigos: ", err);
+        });
+    }
+
+    // Função para baixar os códigos como um arquivo .txt
+    function downloadTxtFile() {
+        const textToSave = document.getElementById("codes").value;
+        const hiddenElement = document.createElement("a");
+        hiddenElement.href = "data:text/plain;charset=utf-8," + encodeURIComponent(textToSave);
+        hiddenElement.target = "_blank";
+        hiddenElement.download = "Links_premium.txt";
+        hiddenElement.click();
+    }
+  </script>
+</body>
+</html>
